@@ -61,7 +61,7 @@ APEXNET_ajaxWrapper_Library.ajax = (function (url, options) {
 function showLoading(selector) {
     if (selector) {
         $(selector).prop('disabled', 'true');
-        $(selector).after("<i id='APEXNET_loading' class='fa fa-spinner fa-spin'></i>");
+        $(selector).after("<i id='apexnet_ajaxLoading' class='fa fa-spinner fa-spin'></i>");
     } else {        
         $("body").append('<div id="apexnet_ajaxLoading" class="apexnet_ajaxLoading-cover"><div class="apexnet_ajaxLoading"><i class="fa fa-spinner fa-spin"></i></div></div>');
         loading = setTimeout('$("#apexnet_ajaxLoading").fadeIn(200);', delayLoading);
