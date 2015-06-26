@@ -18,7 +18,7 @@ var APEXNET_Loading = {
             var idLoad = "apexnet_loading_" + selector.substring(1, selector.length);
             var width = $(selector).outerWidth();
             var height = $(selector).outerHeight();
-            $(selector).wrap("<div style='display:inline-block; position:relative; width:" + width + "px; height:" + height + "px;'></div>");
+            $(selector).wrap("<div class='positionLoader' style='display:inline-block; position:relative; width:" + width + "px; height:" + height + "px;'></div>");
             $(selector).after("<i id=" + idLoad + " class='fa fa-circle-o-notch fa-spin aloader'></i>");
         } else {
             $("body").append('<div id="apexnet_ajaxLoading" class="apexnet_ajaxLoading-cover"><div class="apexnet_ajaxLoading"><i class="fa fa-spinner fa-spin"></i></div></div>');
@@ -32,9 +32,12 @@ var APEXNET_Loading = {
     },
     hide: function(selector) {
         if (selector) {
+
+            if ($(selector).parent('.positionLoader').length == 1) {
             $(selector).unwrap();
             $('#apexnet_loading_' + selector.substring(1, selector.length)).remove();
             $(selector).removeAttr('disabled');
+            }
         } else {
             clearTimeout(delayLoadingTimeout);
             $("#apexnet_ajaxLoading").fadeOut(200);
