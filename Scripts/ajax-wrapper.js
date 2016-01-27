@@ -78,7 +78,7 @@ options: {
         var isShowLoading = options.isShowLoading || false;
         var selectorLoading = options.selectorLoading || null;
         var delayLoading = options.delayLoading || 0;
-        $.ajax({
+        var ajaxRequest = $.ajax({
             url: url,
             type: method,
             async: async,
@@ -111,5 +111,7 @@ options: {
                 APEXNET_Loading.hide(selectorLoading);
             }
         });
+        
+        return ajaxRequest;
     },
 }
