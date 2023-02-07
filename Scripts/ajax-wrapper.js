@@ -1,5 +1,53 @@
 var delayLoadingTimeout;
 var loadingTimeout;
+var loaderQueues;
+class loaderQueuesManager {
+    static getLoaderQueues(selectorLoading) {
+        loaderQueues = loaderQueues || new Array();
+        if (loaderQueues[selectorLoading] == undefined) {
+            loaderQueues[selectorLoading] = 0;
+        }
+        console.log(
+            "getLoaderQueues",
+            selectorLoading,
+            loaderQueues[selectorLoading]
+        );
+        return loaderQueues[selectorLoading];
+    }
+    static anyLoaderQueues(selectorLoading) {
+        console.log(
+            "anyLoaderQueues",
+            selectorLoading,
+            loaderQueues[selectorLoading]
+        );
+        return this.getLoaderQueues(selectorLoading) > 0;
+    }
+    static addItemInLoaderQueue(selectorLoading) {
+        loaderQueues = loaderQueues || new Array();
+        if (loaderQueues[selectorLoading] == undefined) {
+            loaderQueues[selectorLoading] = 0;
+        }
+        loaderQueues[selectorLoading]++;
+        console.log(
+            "addItemInLoaderQueue",
+            selectorLoading,
+            loaderQueues[selectorLoading]
+        );
+    }
+    static removeItemInLoaderQueue(selectorLoading) {
+        loaderQueues = loaderQueues || new Array();
+        if (loaderQueues[selectorLoading] == undefined) {
+            loaderQueues[selectorLoading] = 1;
+        }
+        loaderQueues[selectorLoading]--;
+        console.log(
+            "removeItemInLoaderQueue",
+            selectorLoading,
+            loaderQueues[selectorLoading]
+        );
+    }
+}
+
 var APEXNET_Loading = {
     /*
     options:    {
@@ -8,35 +56,52 @@ var APEXNET_Loading = {
                     timeout:                
                 }
     */
-    show: function(options) {
+    show: function (options) {
         var loadingOptions = options || {};
         var selector = loadingOptions.selector || null;
         var delay = loadingOptions.delay || 0;
         var timeout = loadingOptions.timeout || 0;
         if (selector) {
-            $(selector).prop('disabled', 'true');
-            var idLoad = "apexnet_loading_" + selector.substring(1, selector.length);
+            $(selector).prop("disabled", "true");
+            var idLoad =
+                "apexnet_loading_" + selector.substring(1, selector.length);
             var width = $(selector).outerWidth();
             var height = $(selector).outerHeight();
-            $(selector).wrap("<div class='positionLoader' style='display:inline-block; position:relative; width:" + width + "px; height:" + height + "px;'></div>");
-            $(selector).after("<i id=" + idLoad + " class='fa fa-circle-o-notch fa-spin aloader'></i>");
+            $(selector).wrap(
+                "<div class='positionLoader' style='display:inline-block; position:relative; width:" +
+                    width +
+                    "px; height:" +
+                    height +
+                    "px;'></div>"
+            );
+            $(selector).after(
+                "<i id=" +
+                    idLoad +
+                    " class='fa fa-circle-o-notch fa-spin aloader'></i>"
+            );
         } else {
-            $("body").append('<div id="apexnet_ajaxLoading" class="apexnet_ajaxLoading-cover"><div class="apexnet_ajaxLoading"><i class="fa fa-spinner fa-spin"></i></div></div>');
-            delayLoadingTimeout = setTimeout('$("#apexnet_ajaxLoading").fadeIn(200);', delay || 0);
+            $("body").append(
+                '<div id="apexnet_ajaxLoading" class="apexnet_ajaxLoading-cover"><div class="apexnet_ajaxLoading"><i class="fa fa-spinner fa-spin"></i></div></div>'
+            );
+            delayLoadingTimeout = setTimeout(
+                '$("#apexnet_ajaxLoading").fadeIn(200);',
+                delay || 0
+            );
         }
         if (timeout != 0) {
-            loadingTimeout = setTimeout(function(selector) {
-                APEXNET_Loading.hide(selector)
+            loadingTimeout = setTimeout(function (selector) {
+                APEXNET_Loading.hide(selector);
             }, timeout);
         }
     },
-    hide: function(selector) {
+    hide: function (selector) {
         if (selector) {
-
-            if ($(selector).parent('.positionLoader').length == 1) {
-            $(selector).unwrap();
-            $('#apexnet_loading_' + selector.substring(1, selector.length)).remove();
-            $(selector).removeAttr('disabled');
+            if ($(selector).parent(".positionLoader").length == 1) {
+                $(selector).unwrap();
+                $(
+                    "#apexnet_loading_" + selector.substring(1, selector.length)
+                ).remove();
+                $(selector).removeAttr("disabled");
             }
         } else {
             clearTimeout(delayLoadingTimeout);
@@ -47,8 +112,8 @@ var APEXNET_Loading = {
             clearTimeout(loadingTimeout);
             loadingTimeout = null;
         }
-    }
-}
+    },
+};
 var APEXNET_ajaxWrapper_Library = {
     /*
 options: {
@@ -65,11 +130,13 @@ options: {
                 delayLoading:
           }
 */
-    ajax: function(url, options) {
+    ajax: function (url, options) {
         var method = options.method || "GET";
         var async = options.async || true;
         var data = options.data || {};
-        var contentType = options.contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
+        var contentType =
+            options.contentType ||
+            "application/x-www-form-urlencoded; charset=UTF-8";
         var traditional = options.traditional || false;
         var onBeforeSend = options.onBeforeSend || null;
         var onDone = options.onDone || null;
@@ -78,7 +145,7 @@ options: {
         var isShowLoading = options.isShowLoading || false;
         var selectorLoading = options.selectorLoading || null;
         var delayLoading = options.delayLoading || 0;
-        var ajaxRequest = $.ajax({
+        let ajaxOptions = {
             url: url,
             type: method,
             async: async,
@@ -86,7 +153,7 @@ options: {
             data: data,
             traditional: traditional,
             contentType: contentType,
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 if (isShowLoading) {
                     APEXNET_Loading.show({
                         selector: selectorLoading,
@@ -96,22 +163,32 @@ options: {
                 if (onBeforeSend) {
                     onBeforeSend(xhr);
                 }
-            }
-        }).done(function(responseData) {
-            if (onDone) onDone(responseData);
-        }).fail(function(xhr, textStatus, errorThrown) {
-            if (onFail) {
-                onFail(xhr, textStatus, errorThrown);
-            }
-        }).always(function() {
-            if (onAlways) {
-                onAlways();
-            }
-            if (isShowLoading) {
-                APEXNET_Loading.hide(selectorLoading);
-            }
-        });
-        
+            },
+        };
+        if (options.secureCall) {
+            ajaxOptions.crossDomain = true;
+            ajaxOptions.xhrFields = {
+                withCredentials: true,
+            };
+        }
+        var ajaxRequest = $.ajax(ajaxOptions)
+            .done(function (responseData) {
+                if (onDone) onDone(responseData);
+            })
+            .fail(function (xhr, textStatus, errorThrown) {
+                if (onFail) {
+                    onFail(xhr, textStatus, errorThrown);
+                }
+            })
+            .always(function () {
+                if (onAlways) {
+                    onAlways();
+                }
+                if (isShowLoading) {
+                    APEXNET_Loading.hide(selectorLoading);
+                }
+            });
+
         return ajaxRequest;
     },
-}
+};
