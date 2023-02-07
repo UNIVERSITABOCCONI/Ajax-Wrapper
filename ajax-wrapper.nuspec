@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Ajax-Wrapper.js</id>
+    <title>Ajax Wrapper</title>
+    <version>9.1.0</version>
+    <authors>nolanofra</authors>
+    <owners>Università Bocconi</owners>
+    <projectUrl>https://github.com/universitabocconi/ajax-wrapper.git</projectUrl>
+    <description>Wrapper for Ajax calls for Horsa Devlab ecosystem.</description>
+    <releaseNotes>
+      * new param 'secure' to send credentials with ajax calls
+    </releaseNotes>
+    <dependencies>
+      <group>
+        <dependency id="jquery" version="2.1.1" />
+        <dependency id="font-awesome" version="4.7" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Scripts/" target="content" />
+    <file src="Styles/**/*.css" target="content" />
+  </files>
+</package>
