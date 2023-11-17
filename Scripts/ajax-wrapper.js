@@ -101,7 +101,7 @@ var APEXNET_Loading = {
                 $(
                     "#apexnet_loading_" + selector.substring(1, selector.length)
                 ).remove();
-                $(selector).removeAttr("disabled");
+                $(selector).prop("disabled", "false");
             }
         } else {
             clearTimeout(delayLoadingTimeout);

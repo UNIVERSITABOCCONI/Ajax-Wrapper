@@ -3,13 +3,13 @@
   <metadata>
     <id>Ajax-Wrapper.js</id>
     <title>Ajax Wrapper</title>
-    <version>9.1.0</version>
+    <version>9.1.1</version>
     <authors>nolanofra</authors>
     <owners>Università Bocconi</owners>
     <projectUrl>https://github.com/universitabocconi/ajax-wrapper.git</projectUrl>
     <description>Wrapper for Ajax calls for Horsa Devlab ecosystem.</description>
     <releaseNotes>
-      * new param 'secure' to send credentials with ajax calls
+      * remove deprecated function usage
     </releaseNotes>
     <dependencies>
       <group>
