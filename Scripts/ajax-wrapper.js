@@ -130,6 +130,13 @@ options: {
                 delayLoading:
           }
 */
+    /**
+     * Perform an ajax request.
+     *
+     * @param {string} url Url to call
+     * @param {{ method: string, responseType: string }} options Options object
+     * @returns Ajax result.
+     */
     ajax: function (url, options) {
         var method = options.method || "GET";
         var async = options.async || true;
@@ -171,9 +178,18 @@ options: {
                 withCredentials: true,
             };
         }
+
+        if (options.responseType) {
+            ajaxOptions.xhr = function () {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = options.responseType;
+                return xhr;
+            };
+        }
+        
         var ajaxRequest = $.ajax(ajaxOptions)
-            .done(function (responseData) {
-                if (onDone) onDone(responseData);
+            .done(function (responseData, status, request) {
+                if (onDone) onDone(responseData, status, request);
             })
             .fail(function (xhr, textStatus, errorThrown) {
                 if (onFail) {
