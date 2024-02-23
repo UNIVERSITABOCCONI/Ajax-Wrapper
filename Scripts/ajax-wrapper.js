@@ -134,7 +134,7 @@ options: {
      * Perform an ajax request.
      *
      * @param {string} url Url to call
-     * @param {{ method: string, responseType: string }} options Options object
+     * @param {{ method: string, async: boolean, data: any, contentType: string, traditional: boolean, onBeforeSend, onDone, onFail, onAlways, responseType: string }} options Options object
      * @returns Ajax result.
      */
     ajax: function (url, options) {
@@ -172,6 +172,7 @@ options: {
                 }
             },
         };
+
         if (options.secureCall) {
             ajaxOptions.crossDomain = true;
             ajaxOptions.xhrFields = {
@@ -186,7 +187,7 @@ options: {
                 return xhr;
             };
         }
-        
+
         var ajaxRequest = $.ajax(ajaxOptions)
             .done(function (responseData, status, request) {
                 if (onDone) onDone(responseData, status, request);

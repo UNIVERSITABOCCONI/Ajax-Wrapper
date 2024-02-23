@@ -1,6 +1,10 @@
+# Visual Studio files
 bin/
 obj/
 
+# Produced packages
 **/*.nupkg
+
+# Npm files
 node_modules
 coverage
