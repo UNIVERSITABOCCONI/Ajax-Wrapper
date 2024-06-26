@@ -3,13 +3,13 @@
   <metadata>
     <id>Ajax-Wrapper.js</id>
     <title>Ajax Wrapper</title>
-    <version>9.2.0</version>
-    <authors>nolanofra, danieletentoni</authors>
+    <version>9.2.1</version>
+    <authors>nolanofra, danieletentoni, leonardobaldazzi</authors>
     <owners>Università Bocconi</owners>
     <projectUrl>https://github.com/universitabocconi/ajax-wrapper.git</projectUrl>
     <description>Wrapper for Ajax calls for Horsa Devlab ecosystem.</description>
     <releaseNotes>
-      * use `responseType: 'blob'` to get blobs from api
+      * corrects a bug when APEXNET_Loading selector is a complex one
     </releaseNotes>
     <readme>docs/README.md</readme>
     <dependencies>
