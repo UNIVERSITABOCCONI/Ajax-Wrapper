@@ -48,14 +48,20 @@ class loaderQueuesManager {
     }
 }
 
+$(function () {
+    /* Utility */
+    if (typeof String.prototype.escapeJquerySelector !== "function") {
+        String.prototype.escapeJquerySelector = function () {
+            return this.replaceAll("#", "_").replaceAll(">", "_").replaceAll("+", "_").replaceAll(".", "_").replaceAll(" ", "_");
+        };
+    }
+})
+
 var APEXNET_Loading = {
-    /*
-    options:    {
-                    selector:
-                    delay:
-                    timeout:                
-                }
-    */
+    /**
+     * Shows the loader
+     * @param {{ selector: string, delay: number, timeout: number }} options
+     */
     show: function (options) {
         var loadingOptions = options || {};
         var selector = loadingOptions.selector || null;
@@ -63,8 +69,6 @@ var APEXNET_Loading = {
         var timeout = loadingOptions.timeout || 0;
         if (selector) {
             $(selector).prop("disabled", "true");
-            var idLoad =
-                "apexnet_loading_" + selector.substring(1, selector.length);
             var width = $(selector).outerWidth();
             var height = $(selector).outerHeight();
             $(selector).wrap(
@@ -75,9 +79,7 @@ var APEXNET_Loading = {
                     "px;'></div>"
             );
             $(selector).after(
-                "<i id=" +
-                    idLoad +
-                    " class='fa fa-circle-o-notch fa-spin aloader'></i>"
+                `<i id="${selector.escapeJquerySelector()}" class='fa fa-circle-o-notch fa-spin aloader'></i>`
             );
         } else {
             $("body").append(
@@ -94,13 +96,17 @@ var APEXNET_Loading = {
             }, timeout);
         }
     },
+    /**
+     * Hide the loader
+     * @param {string} selector 
+     */
     hide: function (selector) {
         if (selector) {
+            selector = selector.escapeJquerySelector();
+
             if ($(selector).parent(".positionLoader").length == 1) {
                 $(selector).unwrap();
-                $(
-                    "#apexnet_loading_" + selector.substring(1, selector.length)
-                ).remove();
+                $(selector).remove();
                 $(selector).prop("disabled", "false");
             }
         } else {
@@ -114,6 +120,7 @@ var APEXNET_Loading = {
         }
     },
 };
+
 var APEXNET_ajaxWrapper_Library = {
     /*
 options: {
