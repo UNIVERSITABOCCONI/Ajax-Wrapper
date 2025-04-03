@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test AjaxWrapper con jQuery 3.7.1</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+            crossorigin="anonymous"></script>
+    <script src="./Scripts/ajax-wrapper.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#clickButton").on("click", function () {
+                APEXNET_ajaxWrapper_Library.ajax("https://jsonplaceholder.typicode.com/todos/1", {
+                    method: "GET",
+                    onDone: function (response) {
+                        console.log("Successo:", response);
+                        $("#container").text(JSON.stringify(response));
+                    },
+                    onFail: function (xhr, textStatus, errorThrown) {
+                        console.log("Errore:", xhr, textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="clickButton">Click</button>
+    <div id="container"></div>
+</body>
+</html>
