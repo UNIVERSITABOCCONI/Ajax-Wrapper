@@ -14,7 +14,7 @@ PS C:\work\Ajax-Wrapper> nuget.exe pack .\ajax-wrapper.nuspec
 How to publish:
 
 ```
-PS C:\work\Ajax-Wrapper> nuget.exe push .\Ajax-Wrapper.js.9.1.0.nupkg -Source http://nuget.sm.unibocconi.it/NuGetServer/nuget
+PS C:\work\Ajax-Wrapper> nuget.exe push .\Ajax-Wrapper.js.9.1.0.nupkg
 ```
 
 ## Minimal working example
